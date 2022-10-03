@@ -1,13 +1,37 @@
+import { Component } from "react"
+import axios from 'axios'
 import SearchPic from "../SearchBar"
 import './index.css'
-const Home = () =>{
+import ImageContainer from "../ImageList"
+class  Home extends Component{
+
+    state = {imageSet:[]}
+    
+    sending = async(res1)=>{
+        const response = await axios.get("https://api.unsplash.com/search/photos",{
+            params: {query: res1 },
+            headers:{
+                Authorization:" Client-ID mc40WaYzYAwGVFJ-_HBDbAHNyXnkp8oWh4SWLpgX-ds"
+            }
+        })
+        this.setState({imageSet:response.data.results})
+        
+        console.log(response.data.results[0].links.download)
+
+
+    }
+
+    render(){
     return(
         <>
             <div className="container">
         <div className="d-flex flex-row justify-content-center">
-            <div className="col-lg-5 m shadow p-4">
+            <div className="col-lg-9 m shadow p-4">
                 <h1>Pic-Pedia</h1>
-                <SearchPic/>
+                <SearchPic sended = {this.sending}/>
+                <ImageContainer LOI={this.state.imageSet}/>
+                
+                
 
                 
             </div>
@@ -19,6 +43,7 @@ const Home = () =>{
             
         </>
     )
+    }
 }
 
 export default Home
