@@ -3,18 +3,35 @@ import {Component} from 'react'
 
 class SearchPic extends Component{
 
-    state = {formvalue:""}
+    state = {formvalue:"",counter:1}
 
     onFormChange = (e)=>{
         e.preventDefault()
         //console.log(this.state.formvalue)
-        this.props.sended(this.state.formvalue)
+        this.props.sended(this.state.formvalue,this.state.counter)
      }
 
     formChange = (e)=>{
         this.setState({formvalue:e.target.value})
     }
+
+    add = () =>{
+        
+        this.setState({counter:this.state.counter+1})
+        console.log(this.state.counter)
+    }
      
+    sub = () =>{
+        if (this.state.counter <= 1){
+            this.setState({counter:1})
+        }
+        else{
+            this.setState({counter:this.state.counter-1})
+
+        }
+        
+        console.log(this.state.counter)
+    }
 
 
     render(){
@@ -25,6 +42,10 @@ class SearchPic extends Component{
                     
                     
                 </form>
+                <br/>
+                <button className='btn btn-danger' onClick={this.sub}>Previous</button>
+                <button className='btn btn-primary ml-3' onClick={this.add}>Next</button>
+                <span className='ml-3'>Please hit enter after clicking next/prev buttons</span>
             </>
         )
     }
